@@ -35,7 +35,7 @@ Modbus TCP 使用 NuGet 包 NModbus 3.0.83。其版权和 MIT 许可随发布包
 
 ## English
 
-PLC Simulator is a Windows desktop tool for testing machine vision and industrial PC applications. It provides readable and writable PLC points and supports Modbus TCP, Siemens S7, Mitsubishi MC/SLMP/FX, Omron FINS, and Inovance compatibility modes. See the [user guide](产品使用说明.md#english) for examples and the [address coverage guide](ADDRESS_COVERAGE.md#english) for supported areas and limits.
+PLC Simulator is a Windows desktop tool for testing machine vision and industrial PC applications. It provides readable and writable PLC points and supports Modbus TCP, Siemens S7, Mitsubishi MC/SLMP/FX, Omron FINS, and Inovance compatibility modes. See the [user guide](USER_GUIDE.en.md) for examples and the [address coverage guide](ADDRESS_COVERAGE.md#english) for supported areas and limits.
 
 ### Downloads
 

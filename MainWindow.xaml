@@ -1,0 +1,73 @@
+<Window x:Class="PlcSimulator.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="{DynamicResource Title}"
+ Width="1200" Height="680" MinWidth="820" MinHeight="440" WindowStartupLocation="CenterScreen">
+ <DockPanel>
+  <Border DockPanel.Dock="Top" Background="#173F43" Padding="22,14">
+   <DockPanel><ComboBox x:Name="LanguageBox" DockPanel.Dock="Right" Width="104" VerticalAlignment="Center" SelectionChanged="LanguageChanged">
+    <ComboBoxItem>简体中文</ComboBoxItem><ComboBoxItem>English</ComboBoxItem></ComboBox>
+    <TextBlock Text="{DynamicResource Title}" Foreground="White" FontSize="23" FontWeight="SemiBold"/>
+   </DockPanel>
+  </Border>
+  <Border DockPanel.Dock="Bottom" Background="#E4ECEC" Padding="18,7"><DockPanel>
+   <TextBlock x:Name="ClientsText" DockPanel.Dock="Right" Margin="12,0,0,0"/>
+   <TextBlock x:Name="StatusText" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+  </DockPanel></Border>
+  <Border DockPanel.Dock="Top" Background="White" Padding="18,10">
+   <StackPanel><WrapPanel VerticalAlignment="Center">
+    <Label Content="{DynamicResource Protocol}"/>
+    <ComboBox x:Name="ProtocolBox" Width="170" SelectionChanged="ProtocolChanged">
+     <ComboBoxItem>Modbus TCP</ComboBoxItem><ComboBoxItem>Siemens S7-1200 / S7-1500</ComboBoxItem>
+     <ComboBoxItem>Mitsubishi Q/L MC 3E Binary</ComboBoxItem><ComboBoxItem>Omron CJ/CP FINS/TCP</ComboBoxItem>
+     <ComboBoxItem>Inovance H3U/H5U/Easy TCP</ComboBoxItem>
+     <ComboBoxItem>Mitsubishi Q/L MC 3E ASCII</ComboBoxItem>
+     <ComboBoxItem>Mitsubishi FX3U Serial OverTcp</ComboBoxItem>
+     <ComboBoxItem>Mitsubishi FX5U SLMP 3E Binary</ComboBoxItem>
+     <ComboBoxItem>Mitsubishi FX5U SLMP 3E ASCII (X/Y OCT)</ComboBoxItem>
+    </ComboBox>
+    <Label Content="{DynamicResource ListenIp}"/><TextBox x:Name="IpBox" Width="124"/>
+    <Label Content="{DynamicResource Port}"/><TextBox x:Name="PortBox" Width="65"/>
+    <Label x:Name="UnitLabel" Content="{DynamicResource Unit}"/><TextBox x:Name="UnitBox" Width="46"/>
+    <Button x:Name="ServerButton" Click="ToggleServer" Style="{StaticResource Accent}"/>
+    <TextBlock x:Name="ServerState" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
+   </WrapPanel>
+   <TextBlock x:Name="AreaSummary" Foreground="#45676A" Margin="5,5,0,0" TextWrapping="Wrap"/>
+   </StackPanel>
+  </Border>
+  <DockPanel Margin="18,14">
+   <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,7">
+    <TextBlock Text="{DynamicResource Points}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,16,0"/>
+    <Button Content="{DynamicResource Add}" Click="AddPoint"/><Button Content="{DynamicResource Edit}" Click="EditPoint"/>
+    <Button Content="{DynamicResource Delete}" Click="DeletePoint"/><Button Content="{DynamicResource Schedule}" Click="SchedulePoint"/>
+    <Label Content="{DynamicResource Sample}" Margin="14,0,0,0"/><TextBox x:Name="SampleBox" Width="66"/>
+    <Button Content="{DynamicResource Apply}" Click="ApplySample"/>
+   </WrapPanel>
+   <Expander DockPanel.Dock="Bottom" Header="{DynamicResource Log}" IsExpanded="True" Margin="0,8,0,0">
+    <TextBox x:Name="LogBox" IsReadOnly="True" Height="108" VerticalScrollBarVisibility="Auto"
+      HorizontalScrollBarVisibility="Auto" FontFamily="Consolas, Microsoft YaHei UI" FontSize="12"/>
+   </Expander>
+   <DataGrid x:Name="ItemsGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single"
+     RowHeight="46" HeadersVisibility="Column" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#DFE8E8"
+     AlternatingRowBackground="#F6FAFA" Background="White" BorderBrush="#CAD8DA">
+    <DataGrid.RowStyle><Style TargetType="DataGridRow"><EventSetter Event="MouseDoubleClick" Handler="RowDoubleClick"/></Style></DataGrid.RowStyle>
+    <DataGrid.Columns>
+     <DataGridTextColumn Header="Name" Binding="{Binding Spec.Name}" Width="*" MinWidth="82"/>
+     <DataGridTextColumn Header="Address" Binding="{Binding Spec.AddressLabel}" Width="80"/>
+     <DataGridTextColumn Header="Type" Binding="{Binding Spec.Type}" Width="82"/>
+     <DataGridTextColumn Header="Current" Binding="{Binding Current}" Width="*" MinWidth="88"/>
+     <DataGridTextColumn Header="Value" Binding="{Binding Spec.WriteValue}" Width="80"/>
+     <DataGridTextColumn Header="Interval" Binding="{Binding Spec.IntervalMs}" Width="105"/>
+     <DataGridTextColumn Header="Timing" Binding="{Binding Timing}" Width="120"/>
+     <DataGridTemplateColumn Header="Actions" Width="202"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <Button Content="{DynamicResource Write}" Click="WritePoint"/>
+        <Button Click="ToggleCycle"><Button.Style><Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+         <Setter Property="Content" Value="{DynamicResource Cycle}"/><Style.Triggers><DataTrigger Binding="{Binding Active}" Value="True">
+          <Setter Property="Content" Value="{DynamicResource Halt}"/></DataTrigger></Style.Triggers>
+        </Style></Button.Style></Button>
+       </StackPanel>
+     </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+    </DataGrid.Columns>
+   </DataGrid>
+  </DockPanel>
+ </DockPanel>
+</Window>
